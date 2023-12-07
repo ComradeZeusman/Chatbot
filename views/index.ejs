@@ -68,6 +68,26 @@
   </style>
 </head>
 <body>
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat Interface</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* Custom styles */
+    body {
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+    /* Add your other CSS styles here */
+
+  </style>
+</head>
+<body>
   <div class="chat-container">
     <!-- Chat header with bot icon -->
     <div class="d-flex align-items-center justify-content-center mb-3">
@@ -88,8 +108,6 @@
     </form>
     <!-- Clear conversation button -->
     <button id="clearConversation" class="btn btn-danger mt-3">Clear Conversation</button>
-    <!-- Loading spinner -->
-   
   </div>
 
   <!-- jQuery -->
@@ -107,16 +125,14 @@
           url: '/send-message',
           data: { userInput: userInput },
           success: function(response) {
+            const formattedResponse = formatBotResponse(response);
             $('#chatMessages').append(`
               <div class="message user-message">
                 <div class="bubble">${userInput}</div>
                 <img src="https://th.bing.com/th/id/R.8e2c571ff125b3531705198a15d3103c?rik=gzhbzBpXBa%2bxMA&riu=http%3a%2f%2fpluspng.com%2fimg-png%2fuser-png-icon-big-image-png-2240.png&ehk=VeWsrun%2fvDy5QDv2Z6Xm8XnIMXyeaz2fhR3AgxlvxAc%3d&risl=&pid=ImgRaw&r=0" alt="User Icon" class="user-icon">
               </div>
-            `);
-            $('#chatMessages').append(`
               <div class="message bot-message">
-                <img src="https://th.bing.com/th/id/R.0d8ae648e1b69dddce23fabb9050633c?rik=F4x56IhVCprrLg&pid=ImgRaw&r=0" alt="Bot Icon" class="bot-icon">
-                <div class="bubble">${response}</div>
+                ${formattedResponse}
               </div>
             `);
             $('#chatMessages').scrollTop($('#chatMessages')[0].scrollHeight);
@@ -129,17 +145,37 @@
         });
       });
 
-      // Functionality for the clear conversation button
+      
+      function formatBotResponse(response) {
+        let formattedResponse = '<div class="bubble">';
+        // Replace this with your logic for formatting the response
+        const lines = response.split('\n'); // Split response into lines
+
+        lines.forEach(line => {
+          // Check if the line starts with a number followed by a dot (e.g., "1.")
+          if (/^\d+\./.test(line.trim())) {
+            formattedResponse += `<li>${line.trim()}</li>`; // Format as bulleted list item
+          } else if (/^[a-zA-Z]+\./.test(line.trim())) {
+            formattedResponse += `<li style="list-style-type: lower-alpha;">${line.trim()}</li>`; // Format as alphabetical list item
+          } else {
+            formattedResponse += `${line}<br>`; // Default formatting for regular text
+          }
+        });
+
+        formattedResponse += '</div>';
+        return formattedResponse;
+      }
+
       $('#clearConversation').click(function() {
         $.ajax({
           type: 'POST',
-          url: '/clear-conversation', // Route to clear conversation history
+          url: '/clear-conversation',
           success: function(response) {
-            $('#chatMessages').empty(); // Clear chat messages on the frontend
-            console.log(response); // Log success message to the console
+            $('#chatMessages').empty();
+            console.log(response);
           },
           error: function() {
-            console.log('Error clearing conversation'); // Log error message to the console if needed
+            console.log('Error clearing conversation');
           }
         });
       });
