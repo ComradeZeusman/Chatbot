@@ -27,6 +27,7 @@ app.post('/send-message', async (req, res) => {
     const messages = [
       ...conversationHistory, // Include previous conversation
       { role: 'user', content: userInput },
+      {role: 'system', content: 'Comrade Zeusman AI Assistant is typing'},
       { role: 'assistant', content: 'Hey, I am Comrade Zeusman AI Assistant. How can I help you today?' }
     ];
 

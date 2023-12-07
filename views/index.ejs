@@ -9,15 +9,32 @@
   <style>
     /* Custom styles */
     body {
-      background-color: #f5f5f5;
       margin: 0;
       padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    /* Light mode styles */
+    body,
+    .chat-container,
+    .user-message .bubble,
+    .bot-message .bubble {
+      background-color: #f5f5f5;
+      color: #333;
+    }
+
+    /* Dark mode styles */
+    body.dark-mode,
+    .chat-container.dark-mode,
+    .user-message .bubble.dark-mode,
+    .bot-message .bubble.dark-mode {
+      background-color: #333;
+      color: #fff;
     }
     .chat-container {
       padding: 20px;
       border-radius: 10px;
       box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
-      background-color: #fff;
       overflow-y: auto;
       min-height: 100vh;
     }
@@ -68,26 +85,10 @@
   </style>
 </head>
 <body>
-  <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chat Interface</title>
-  <!-- Bootstrap CSS -->
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    /* Custom styles */
-    body {
-      background-color: #f5f5f5;
-      margin: 0;
-      padding: 0;
-    }
-    /* Add your other CSS styles here */
-
-  </style>
-</head>
-<body>
+  <div class="toggle-dark-mode" style="padding: 10px;">
+    <input type="checkbox" id="darkModeToggle">
+    <label for="darkModeToggle">Dark Mode</label>
+  </div>
   <div class="chat-container">
     <!-- Chat header with bot icon -->
     <div class="d-flex align-items-center justify-content-center mb-3">
@@ -109,7 +110,6 @@
     <!-- Clear conversation button -->
     <button id="clearConversation" class="btn btn-danger mt-3">Clear Conversation</button>
   </div>
-
   <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <!-- Bootstrap JS -->
@@ -178,6 +178,11 @@
             console.log('Error clearing conversation');
           }
         });
+      });
+
+      $('#darkModeToggle').change(function() {
+        $('body').toggleClass('dark-mode');
+        $('.chat-container, .user-message .bubble, .bot-message .bubble').toggleClass('dark-mode');
       });
     });
   </script>
