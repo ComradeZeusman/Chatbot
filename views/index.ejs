@@ -133,7 +133,7 @@
 
   function speakResponse(text) {
     if (isSpeechEnabled) {
-      const apiKey = ''; // Replace with your Google API key
+      const apiKey = ''; 
       const endpoint = `https://texttospeech.googleapis.com/v1/text:synthesize?key=${apiKey}`;
 
       const requestData = {
@@ -141,8 +141,8 @@
           text: text
         },
         voice: {
-          languageCode: 'en-US', // Replace with desired language code if needed
-          ssmlGender: 'FEMALE' // Replace with desired gender
+          languageCode: 'en-GB', // British English
+    ssmlGender: 'FEMALE' // Female voice
         },
         audioConfig: {
           audioEncoding: 'MP3' // Replace with desired audio format
@@ -203,7 +203,7 @@
       $('#chatMessages').append(`
         <div class="message bot-message">
           <div class="bubble">${formattedResponse}</div>
-          <img src="https://th.bing.com/th/id/R.8e2c571ff125b3531705198a15d3103c?rik=gzhbzBpXBa%2bxMA&riu=http%3a%2f%2fpluspng.com%2fimg-png%2fuser-png-icon-big-image-png-2240.png&ehk=VeWsrun%2fvDy5QDv2Z6Xm8XnIMXyeaz2fhR3AgxlvxAc%3d&risl=&pid=ImgRaw&r=0" alt="User Icon" class="user-icon">
+          <img src="https://th.bing.com/th/id/R.0d8ae648e1b69dddce23fabb9050633c?rik=F4x56IhVCprrLg&pid=ImgRaw&r=0" alt="User Icon" class="user-icon">
         </div>
       `);
 
@@ -212,7 +212,7 @@
       $(`
         <div class="message user-message">
           <div class="bubble">${userInput}</div>
-          <img src="https://th.bing.com/th/id/R.0d8ae648e1b69dddce23fabb9050633c?rik=F4x56IhVCprrLg&pid=ImgRaw&r=0" alt="User Icon" class="user-icon">
+          <img src="https://th.bing.com/th/id/R.8e2c571ff125b3531705198a15d3103c?rik=gzhbzBpXBa%2bxMA&riu=http%3a%2f%2fpluspng.com%2fimg-png%2fuser-png-icon-big-image-png-2240.png&ehk=VeWsrun%2fvDy5QDv2Z6Xm8XnIMXyeaz2fhR3AgxlvxAc%3d&risl=&pid=ImgRaw&r=0" alt="User Icon" class="user-icon">
         </div>
       `).insertBefore(lastBotMessage);
 
@@ -238,7 +238,7 @@
 
   function formatBotResponse(response) {
     let formattedResponse = '<div class="bubble">';
-    // Replace this with your logic for formatting the response
+   
     const lines = response.split('\n'); // Split response into lines
 
     lines.forEach(line => {
