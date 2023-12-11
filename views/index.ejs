@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="icon" href="https://th.bing.com/th/id/R.0d8ae648e1b69dddce23fabb9050633c?rik=F4x56IhVCprrLg&pid=ImgRaw&r=0">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chat</title>
@@ -109,13 +110,36 @@
     </form>
     <!-- Clear conversation button -->
     <button id="clearConversation" class="btn btn-danger mt-3">Clear Conversation</button>
+    <audio id="audioPlayer" controls style="display: none;"></audio>
+
+    <!-- Button to toggle speech synthesis -->
+    <button id="toggleSpeechButton" class="btn btn-info mt-3">Disable Speech</button>
   </div>
-  <!-- jQuery -->
+  </div>
+ 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <!-- Bootstrap JS -->
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script>
     $(document).ready(function() {
+      let isSpeechEnabled = true;
+
+      function toggleSpeech() {
+        isSpeechEnabled = !isSpeechEnabled;
+        $('#toggleSpeechButton').text(isSpeechEnabled ? 'Disable Speech' : 'Enable Speech');
+      }
+
+      $('#toggleSpeechButton').click(function() {
+        toggleSpeech();
+      });
+
+      function speakResponse(text) {
+        if (isSpeechEnabled) {
+          const utterance = new SpeechSynthesisUtterance();
+          utterance.text = text;
+          speechSynthesis.speak(utterance);
+        }
+      }
+
       $('#userInputForm').submit(function(event) {
         event.preventDefault();
         const userInput = $('#userInput').val();
@@ -138,6 +162,8 @@
             $('#chatMessages').scrollTop($('#chatMessages')[0].scrollHeight);
             $('#userInput').val('');
             $('#loadingSpinner').addClass('d-none');
+
+            speakResponse(formattedResponse);
           },
           error: function() {
             $('#loadingSpinner').addClass('d-none');
@@ -145,20 +171,17 @@
         });
       });
 
-      
       function formatBotResponse(response) {
         let formattedResponse = '<div class="bubble">';
-        // Replace this with your logic for formatting the response
-        const lines = response.split('\n'); // Split response into lines
+        const lines = response.split('\n');
 
         lines.forEach(line => {
-          // Check if the line starts with a number followed by a dot (e.g., "1.")
           if (/^\d+\./.test(line.trim())) {
-            formattedResponse += `<li>${line.trim()}</li>`; // Format as bulleted list item
+            formattedResponse += `<li>${line.trim()}</li>`;
           } else if (/^[a-zA-Z]+\./.test(line.trim())) {
-            formattedResponse += `<li style="list-style-type: lower-alpha;">${line.trim()}</li>`; // Format as alphabetical list item
+            formattedResponse += `<li style="list-style-type: lower-alpha;">${line.trim()}</li>`;
           } else {
-            formattedResponse += `${line}<br>`; // Default formatting for regular text
+            formattedResponse += `${line}<br>`;
           }
         });
 
