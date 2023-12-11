@@ -133,7 +133,7 @@
 
   function speakResponse(text) {
     if (isSpeechEnabled) {
-      const apiKey = 'AIzaSyDtqm6Gcj-FBnQjlJq3V8SwktlXZQpX9iw'; // Replace with your Google API key
+      const apiKey = ''; // Replace with your Google API key
       const endpoint = `https://texttospeech.googleapis.com/v1/text:synthesize?key=${apiKey}`;
 
       const requestData = {
@@ -191,12 +191,6 @@
   event.preventDefault();
   const userInput = $('#userInput').val();
   $('#loadingSpinner').removeClass('d-none');
-  $('#chatMessages').append(`
-    <div class="message user-message">
-      <div class="bubble">${userInput}</div>
-      <img src="https://th.bing.com/th/id/R.0d8ae648e1b69dddce23fabb9050633c?rik=F4x56IhVCprrLg&pid=ImgRaw&r=0" alt="User Icon" class="user-icon">
-    </div>
-  `);
 
   $.ajax({
     type: 'POST',
@@ -204,12 +198,23 @@
     data: { userInput: userInput },
     success: function(response) {
       const formattedResponse = formatBotResponse(response);
+
+      // Append bot's response after receiving it from the server
       $('#chatMessages').append(`
         <div class="message bot-message">
           <div class="bubble">${formattedResponse}</div>
           <img src="https://th.bing.com/th/id/R.8e2c571ff125b3531705198a15d3103c?rik=gzhbzBpXBa%2bxMA&riu=http%3a%2f%2fpluspng.com%2fimg-png%2fuser-png-icon-big-image-png-2240.png&ehk=VeWsrun%2fvDy5QDv2Z6Xm8XnIMXyeaz2fhR3AgxlvxAc%3d&risl=&pid=ImgRaw&r=0" alt="User Icon" class="user-icon">
         </div>
       `);
+
+      // Append user's input above the bot's response
+      const lastBotMessage = $('.message.bot-message:last');
+      $(`
+        <div class="message user-message">
+          <div class="bubble">${userInput}</div>
+          <img src="https://th.bing.com/th/id/R.0d8ae648e1b69dddce23fabb9050633c?rik=F4x56IhVCprrLg&pid=ImgRaw&r=0" alt="User Icon" class="user-icon">
+        </div>
+      `).insertBefore(lastBotMessage);
 
       $('#chatMessages').scrollTop($('#chatMessages')[0].scrollHeight);
       $('#userInput').val('');
