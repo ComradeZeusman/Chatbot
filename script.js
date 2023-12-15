@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({ extended: true })); // Parse URL-encoded bodies
 let conversationHistory = []; // Store conversation history
 
 app.set('view engine', 'ejs'); // Set EJS as the templating engine
-// Set up your Express app, views, and middleware here
+
 
 app.get('/', (req, res) => {
   res.render('index');
