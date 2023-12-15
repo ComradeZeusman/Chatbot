@@ -15,6 +15,9 @@ let conversationHistory = []; // Store conversation history
 
 app.set('view engine', 'ejs'); // Set EJS as the templating engine
 
+//set up static files
+app.use(express.static('public'));
+
 
 app.get('/', (req, res) => {
   res.render('index');
@@ -47,6 +50,50 @@ app.post('/send-message', async (req, res) => {
     res.status(500).send('Error processing your request');
   }
 });
+
+//use dalle for image generation
+app.post('/generate-image', async (req, res) => {
+  const userInput = req.body.imageinput;
+  console.log(userInput);
+
+  try {
+    // Make the request to generate the image
+    const response = await openai.images.generate({
+      model: 'dall-e-3',
+      prompt: userInput,
+      n: 1,
+      size: '1024x1024',
+    });
+
+    console.log(response.data);
+
+    if (response.data && response.data.length > 0) {
+      const image_url = response.data[0].url;
+      console.log(image_url);
+
+      // Send the image URL as a response
+      res.send(image_url)
+    } else {
+      res.status(400).json({
+        success: false,
+        error: "Image URL not found in the response",
+      });
+    }
+  } catch (error) {
+    if (error.response) {
+      console.log(error.response.status);
+      console.log(error.response.data);
+    } else {
+      console.log(error.message);
+    }
+
+    res.status(400).json({
+      success: false,
+      error: "The image could not be generated",
+    });
+  }
+});
+
 
 app.post('/clear-conversation', (req, res) => {
   conversationHistory = [];
