@@ -51,7 +51,6 @@ app.post('/send-message', async (req, res) => {
   }
 });
 
-//use dalle for image generation
 app.post('/generate-image', async (req, res) => {
   const userInput = req.body.imageinput;
   console.log(userInput);

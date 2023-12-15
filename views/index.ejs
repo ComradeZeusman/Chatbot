@@ -83,6 +83,17 @@
       height: 30px;
       margin-left: 10px;
     }
+
+  #imageDisplay img {
+    max-width: 50%; /* Limit the image to its container width */
+    max-height: 30%;
+    height: auto; /* Maintain aspect ratio */
+    display: block; /* Ensure the image doesn't overflow its container */
+    margin: 0 auto; /* Center the image horizontally */
+    border-radius:10px ;
+    text-align: center;
+
+  }
   </style>
 </head>
 <body>
@@ -95,6 +106,9 @@
     <div class="d-flex align-items-center justify-content-center mb-3">
       <img src="https://th.bing.com/th/id/R.0d8ae648e1b69dddce23fabb9050633c?rik=F4x56IhVCprrLg&pid=ImgRaw&r=0" alt="User Icon" class="user-icon">
       <h5>Chat with comrade zeusman</h5>
+    </div>
+    <div id="imageDisplay">
+      <!-- Your image will be displayed here -->
     </div>
     <!-- Chat messages area -->
     <div id="chatMessages"></div>
@@ -109,7 +123,7 @@
       <button type="submit" class="btn btn-primary">Send</button>
     </form>
 
- 
+    
 <form id="imageForm">
   <input type="text" id="imageInputField" placeholder="Enter prompt for image generation">
   <button type="submit">Generate Image</button>

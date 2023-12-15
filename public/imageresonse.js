@@ -5,6 +5,9 @@ $(document).ready(function() {
       // Get user input prompt for image generation
       const userInput = $('#imageInputField').val();
   
+      // Show loading state
+      $('#imageDisplay').html('<img src="Rhombus.gif"><br>Generating image...');
+  
       // Make an AJAX request to generate the image
       $.ajax({
         type: 'POST',
