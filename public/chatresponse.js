@@ -12,7 +12,7 @@ $(document).ready(function() {
   
     function speakResponse(text) {
       if (isSpeechEnabled) {
-        const apiKey = 'AIzaSyDtqm6Gcj-FBnQjlJq3V8SwktlXZQpX9iw'; 
+        const apiKey = 'Your_api_key'; 
         const endpoint = `https://texttospeech.googleapis.com/v1/text:synthesize?key=${apiKey}`;
   
         const requestData = {
