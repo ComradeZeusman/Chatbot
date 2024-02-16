@@ -21,7 +21,7 @@
       <h5>Chat with comrade zeusman</h5>
     </div>
     <div id="imageDisplay">
-      <!-- Your image will be displayed here -->
+     
     </div>
     <!-- Chat messages area -->
     <div id="chatMessages"></div>
@@ -59,4 +59,25 @@
   <script src="./chatresponse.js"></script>
   <script src="./imageresonse.js"></script>
 </body>
+<script>
+const imageDisplay = document.getElementById('imageDisplay');
+//download image
+const downloadImage = (url) => {
+  const image = new Image();
+  image.src = url;
+  image.onload = () => {
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
+    canvas.width = image.width;
+    canvas.height = image.height;
+    context.drawImage(image, 0, 0);
+    const link = document.createElement('a');
+    link.download = 'image.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  };
+};
+
+
+  </script>
 </html>

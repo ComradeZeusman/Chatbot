@@ -1,7 +1,7 @@
-import express from 'express';
-import OpenAI from 'openai';
-import dotenv from 'dotenv';
-import bodyParser from 'body-parser';
+const express = require('express');
+const bodyParser = require('body-parser');
+const dotenv = require('dotenv');
+const OpenAI = require('openai');
 
 const app = express();
 
@@ -99,8 +99,6 @@ app.post('/clear-conversation', (req, res) => {
   res.send('Conversation history cleared');
 });
 
-
-// Set up other routes and configurations for your Express app
 
 const PORT = 3000;
 app.listen(PORT, () => {
